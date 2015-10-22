@@ -56,6 +56,10 @@ class Todo extends SoyComponent {
 		}
 	}
 
+	handleClearCompletedClick_() {
+		TodoActions.removeCompleted();
+	}
+
 	handleEditKeyUp_(event) {
 		if (event.keyCode === 13) {
 			this.editTodo_(event.delegateTarget);

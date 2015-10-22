@@ -98,6 +98,10 @@
 				<a href="#/completed">Completed</a>
 			</li>
 		</ul>
-		<button class="clear-completed{$incompleteCount == length($todos) ? ' hidden' : ''}">Clear completed</button>
+		<button
+			class="clear-completed{$incompleteCount == length($todos) ? ' hidden' : ''}"
+			data-onclick="handleClearCompletedClick_">
+			Clear completed
+		</button>
 	</footer>
 {/template}

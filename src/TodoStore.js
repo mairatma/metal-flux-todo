@@ -53,6 +53,11 @@ class TodoStore extends FluxStore {
 					this.emit(FluxStore.EVENT_CHANGE);
 				}
 				break;
+			case TodoActions.REMOVE_COMPLETED:
+				if (removeCompleted()) {
+					this.emit(FluxStore.EVENT_CHANGE);
+				}
+				break;
 			case TodoActions.REMOVE_TODO:
 				if (todos[payload.index]) {
 					todos.splice(payload.index, 1);
@@ -69,6 +74,13 @@ function changeAllCompleted(newValue) {
 		changed = changed || (!todo.completed === newValue);
 		todo.completed = newValue;
 	});
+	return changed;
+}
+
+function removeCompleted() {
+	var newTodos = todos.filter(todo => !todo.completed);
+	var changed = newTodos.length !== todos.length;
+	todos = newTodos;
 	return changed;
 }
 

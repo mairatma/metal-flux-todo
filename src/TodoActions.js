@@ -44,6 +44,12 @@ class TodoActions {
 		});
 	}
 
+	static removeCompleted() {
+		TodoDispatcher.dispatch({
+			type: TodoActions.REMOVE_COMPLETED
+		});
+	}
+
 	static removeTodo(index) {
 		TodoDispatcher.dispatch({
 			type: TodoActions.REMOVE_TODO,
@@ -58,6 +64,7 @@ TodoActions.MARK_ALL_COMPLETED = 'mark-all-completed';
 TodoActions.MARK_ALL_INCOMPLETED = 'mark-all-incompleted';
 TodoActions.MARK_COMPLETED = 'mark-completed';
 TodoActions.MARK_INCOMPLETED = 'mark-incompleted';
+TodoActions.REMOVE_COMPLETED = 'remove-completed';
 TodoActions.REMOVE_TODO = 'remove-todo';
 
 export default TodoActions;
