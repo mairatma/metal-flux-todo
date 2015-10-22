@@ -68,10 +68,10 @@
 						data-onchange="handleCompletedCheckboxChange_"
 						{$todo.completed ? 'checked': ''}
 					>
-					<label>{$todo.text}</label>
+					<label data-ondblclick="handleLabelDoubleClick_">{$todo.text}</label>
 					<button class="destroy"></button>
 				</div>
-				<input class="edit">
+				<input class="edit" value="{$todo.text}" data-onkeyup="handleEditKeyUp_">
 			</li>
 		{/foreach}
 	</ul>

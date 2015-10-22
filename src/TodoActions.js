@@ -10,6 +10,14 @@ class TodoActions {
 		});
 	}
 
+	static editTodo(index, text) {
+		TodoDispatcher.dispatch({
+			type: TodoActions.EDIT_TODO,
+			index: index,
+			text: text
+		});
+	}
+
 	static markAllCompleted() {
 		TodoDispatcher.dispatch({
 			type: TodoActions.MARK_ALL_COMPLETED
@@ -35,12 +43,21 @@ class TodoActions {
 			index: index
 		});
 	}
+
+	static removeTodo(index) {
+		TodoDispatcher.dispatch({
+			type: TodoActions.REMOVE_TODO,
+			index: index
+		});
+	}
 }
 
 TodoActions.ADD_TODO = 'add-todo';
+TodoActions.EDIT_TODO = 'edit-todo';
 TodoActions.MARK_ALL_COMPLETED = 'mark-all-completed';
 TodoActions.MARK_ALL_INCOMPLETED = 'mark-all-incompleted';
 TodoActions.MARK_COMPLETED = 'mark-completed';
 TodoActions.MARK_INCOMPLETED = 'mark-incompleted';
+TodoActions.REMOVE_TODO = 'remove-todo';
 
 export default TodoActions;

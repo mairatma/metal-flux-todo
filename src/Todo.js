@@ -18,6 +18,25 @@ class Todo extends SoyComponent {
 			this.todos = TodoStore.getAll();
 			this.allCompletedChecked = TodoStore.areAllCompleted();
 		});
+		dom.on(document, 'blur', this.handleBlur_.bind(this), true);
+	}
+
+	editTodo_(input) {
+		var listElement = input.parentNode;
+		var index = parseInt(listElement.getAttribute('data-index'), 10);
+		var text = input.value.trim();
+		if (text) {
+			TodoActions.editTodo(index, text);
+		} else {
+			TodoActions.removeTodo(index);
+		}
+		this.editing_ = false;
+	}
+
+	handleBlur_(event) {
+		if (dom.hasClass(event.target.parentNode, 'editing') && this.editing_) {
+			this.editTodo_(event.target);
+		}
 	}
 
 	handleCompletedCheckboxChange_(event) {
@@ -29,11 +48,32 @@ class Todo extends SoyComponent {
 		}
 	}
 
+	handleEditKeyUp_(event) {
+		if (event.keyCode === 13) {
+			this.editTodo_(event.delegateTarget);
+		} else if (event.keyCode === 27) {
+			var listElement = event.delegateTarget.parentNode;
+			dom.removeClasses(listElement, 'editing');
+			this.editing_ = false;
+		}
+	}
+
 	handleInputKeyUp_(event) {
 		if (event.keyCode === 13) {
 			TodoActions.addTodo(event.delegateTarget.value.trim());
 			event.delegateTarget.value = '';
 		}
+	}
+
+	handleLabelDoubleClick_(event) {
+		var listElement = event.delegateTarget.parentNode.parentNode;
+		dom.addClasses(listElement, 'editing');
+
+		this.editing_ = true;
+		var index = parseInt(listElement.getAttribute('data-index'), 10);
+		var editInput = listElement.querySelector('.edit');
+		editInput.focus();
+		editInput.value = this.todos[index].text;
 	}
 
 	handleToggleAllChange_(event) {

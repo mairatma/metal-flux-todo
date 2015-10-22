@@ -25,6 +25,12 @@ class TodoStore extends FluxStore {
 				});
 				this.emit(FluxStore.EVENT_CHANGE);
 				break;
+			case TodoActions.EDIT_TODO:
+				if (todos[payload.index].text !== payload.text) {
+					todos[payload.index].text = payload.text
+					this.emit(FluxStore.EVENT_CHANGE);
+				}
+				break;
 			case TodoActions.MARK_ALL_COMPLETED:
 				if (changeAllCompleted(true)) {
 					this.emit(FluxStore.EVENT_CHANGE);
@@ -44,6 +50,12 @@ class TodoStore extends FluxStore {
 			case TodoActions.MARK_INCOMPLETED:
 				if (todos[payload.index].completed) {
 					todos[payload.index].completed = false;
+					this.emit(FluxStore.EVENT_CHANGE);
+				}
+				break;
+			case TodoActions.REMOVE_TODO:
+				if (todos[payload.index]) {
+					todos.splice(payload.index, 1);
 					this.emit(FluxStore.EVENT_CHANGE);
 				}
 				break;
