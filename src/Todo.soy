@@ -34,7 +34,7 @@
 {/template}
 
 /**
- * @param allCompleteChecked
+ * @param allCompletedChecked
  * @param id
  * @param todos
  */
@@ -44,7 +44,7 @@
 			class="toggle-all"
 			type="checkbox"
 			data-onchange="handleToggleAllChange_"
-			{$allCompleteChecked ? 'checked' : ''}>
+			{$allCompletedChecked ? 'checked' : ''}>
 		<label for="toggle-all">Mark all as complete</label>
 		{call .list}
 			{param surfaceElementId: $id + '-list' /}
@@ -60,9 +60,14 @@
 {template .list}
 	<ul id="{$surfaceElementId}" class="todo-list">
 		{foreach $todo in $todos}
-			<li class="{$todo.completed ? 'completed' : ''}">
+			<li class="{$todo.completed ? 'completed' : ''}" data-index="{index($todo)}">
 				<div class="view">
-					<input class="toggle" type="checkbox" {$todo.completed ? 'checked': ''}>
+					<input
+						class="toggle"
+						type="checkbox"
+						data-onchange="handleCompletedCheckboxChange_"
+						{$todo.completed ? 'checked': ''}
+					>
 					<label>{$todo.text}</label>
 					<button class="destroy"></button>
 				</div>

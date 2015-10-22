@@ -16,7 +16,17 @@ class Todo extends SoyComponent {
 	attached() {
 		TodoStore.on('change', () => {
 			this.todos = TodoStore.getAll();
+			this.allCompletedChecked = TodoStore.areAllCompleted();
 		});
+	}
+
+	handleCompletedCheckboxChange_(event) {
+		var index = parseInt(event.delegateTarget.parentNode.parentNode.getAttribute('data-index'), 10);
+		if (event.delegateTarget.checked) {
+			TodoActions.markCompleted(index);
+		} else {
+			TodoActions.markIncompleted(index);
+		}
 	}
 
 	handleInputKeyUp_(event) {
