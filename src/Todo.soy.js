@@ -49,7 +49,15 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.Todo.main = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<section id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-main" class="main' + soy.$$escapeHtmlAttribute(opt_data.todos.length == 0 ? ' hidden' : '') + '"><input class="toggle-all" type="checkbox"><label for="toggle-all">Mark all as complete</label><ul class="todo-list"></ul></section>');
+  var output = '<section id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-main" class="main' + soy.$$escapeHtmlAttribute(opt_data.todos.length == 0 ? ' hidden' : '') + '"><input class="toggle-all" type="checkbox"><label for="toggle-all">Mark all as complete</label><ul class="todo-list">';
+  var todoList20 = opt_data.todos;
+  var todoListLen20 = todoList20.length;
+  for (var todoIndex20 = 0; todoIndex20 < todoListLen20; todoIndex20++) {
+    var todoData20 = todoList20[todoIndex20];
+    output += '<li><div class="view"><input class="toggle" type="checkbox"><label>' + soy.$$escapeHtml(todoData20.text) + '</label><button class="destroy"></button></div><input class="edit"></li>';
+  }
+  output += '</ul></section>';
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
 };
 if (goog.DEBUG) {
   Templates.Todo.main.soyTemplateName = 'Templates.Todo.main';
