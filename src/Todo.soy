@@ -37,6 +37,7 @@
  * @param allCompletedChecked
  * @param id
  * @param todos
+ * @param visibleItems
  */
 {template .main}
 	<section id="{$id}-main" class="main{length($todos) == 0 ? ' hidden' : ''}">
@@ -49,6 +50,7 @@
 		{call .list}
 			{param surfaceElementId: $id + '-list' /}
 			{param todos: $todos /}
+			{param visibleItems: $visibleItems /}
 		{/call}
 	</section>
 {/template}
@@ -56,11 +58,12 @@
 /**
  * @param surfaceElementId
  * @param todos
+ * @param visibleItems
  */
 {template .list}
 	<ul id="{$surfaceElementId}" class="todo-list">
 		{foreach $todo in $todos}
-			<li class="{$todo.completed ? 'completed' : ''}" data-index="{index($todo)}">
+			<li class="{$todo.completed ? 'completed' : ''}{$visibleItems[index($todo)] ? '' : ' hidden'}" data-index="{index($todo)}">
 				<div class="view">
 					<input
 						class="toggle"
@@ -80,6 +83,7 @@
 /**
  * @param id
  * @param incompleteCount
+ * @param selectedFilter
  * @param todos
  */
 {template .footer}
@@ -89,13 +93,31 @@
 		</span>
 		<ul class="filters">
 			<li>
-				<a href="#/" class="selected">All</a>
+				<a
+					href="#/"
+					class="{$selectedFilter == 'all' or (not $selectedFilter) ? 'selected' : ''}"
+					data-filter="all"
+					data-onclick="handleFilterClick_">
+					All
+				</a>
 			</li>
 			<li>
-				<a href="#/active">Active</a>
+				<a
+					href="#/active"
+					class="{$selectedFilter == 'active' ? 'selected' : ''}"
+					data-filter="active"
+					data-onclick="handleFilterClick_">
+					Active
+				</a>
 			</li>
 			<li>
-				<a href="#/completed">Completed</a>
+				<a
+					href="#/completed"
+					class="{$selectedFilter == 'completed' ? 'selected' : ''}"
+					data-filter="completed"
+					data-onclick="handleFilterClick_">
+					Completed
+				</a>
 			</li>
 		</ul>
 		<button

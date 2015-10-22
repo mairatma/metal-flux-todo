@@ -49,7 +49,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.Todo.main = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<section id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-main" class="main' + soy.$$escapeHtmlAttribute(opt_data.todos.length == 0 ? ' hidden' : '') + '"><input class="toggle-all" type="checkbox" data-onchange="handleToggleAllChange_"' + soy.$$filterHtmlAttributes(opt_data.allCompletedChecked ? 'checked' : '') + '><label for="toggle-all">Mark all as complete</label>' + Templates.Todo.list({surfaceElementId: opt_data.id + '-list', todos: opt_data.todos}, null, opt_ijData) + '</section>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<section id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-main" class="main' + soy.$$escapeHtmlAttribute(opt_data.todos.length == 0 ? ' hidden' : '') + '"><input class="toggle-all" type="checkbox" data-onchange="handleToggleAllChange_"' + soy.$$filterHtmlAttributes(opt_data.allCompletedChecked ? 'checked' : '') + '><label for="toggle-all">Mark all as complete</label>' + Templates.Todo.list({surfaceElementId: opt_data.id + '-list', todos: opt_data.todos, visibleItems: opt_data.visibleItems}, null, opt_ijData) + '</section>');
 };
 if (goog.DEBUG) {
   Templates.Todo.main.soyTemplateName = 'Templates.Todo.main';
@@ -65,11 +65,11 @@ if (goog.DEBUG) {
  */
 Templates.Todo.list = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<ul id="' + soy.$$escapeHtmlAttribute(opt_data.surfaceElementId) + '" class="todo-list">';
-  var todoList30 = opt_data.todos;
-  var todoListLen30 = todoList30.length;
-  for (var todoIndex30 = 0; todoIndex30 < todoListLen30; todoIndex30++) {
-    var todoData30 = todoList30[todoIndex30];
-    output += '<li class="' + soy.$$escapeHtmlAttribute(todoData30.completed ? 'completed' : '') + '" data-index="' + soy.$$escapeHtmlAttribute(todoIndex30) + '"><div class="view"><input class="toggle" type="checkbox" data-onchange="handleCompletedCheckboxChange_"' + soy.$$filterHtmlAttributes(todoData30.completed ? 'checked' : '') + '><label data-ondblclick="handleLabelDoubleClick_">' + soy.$$escapeHtml(todoData30.text) + '</label><button class="destroy" data-onclick="handleDestroyClick_"></button></div><input class="edit" value="' + soy.$$escapeHtmlAttribute(todoData30.text) + '" data-onkeyup="handleEditKeyUp_"></li>';
+  var todoList31 = opt_data.todos;
+  var todoListLen31 = todoList31.length;
+  for (var todoIndex31 = 0; todoIndex31 < todoListLen31; todoIndex31++) {
+    var todoData31 = todoList31[todoIndex31];
+    output += '<li class="' + soy.$$escapeHtmlAttribute(todoData31.completed ? 'completed' : '') + soy.$$escapeHtmlAttribute(opt_data.visibleItems[todoIndex31] ? '' : ' hidden') + '" data-index="' + soy.$$escapeHtmlAttribute(todoIndex31) + '"><div class="view"><input class="toggle" type="checkbox" data-onchange="handleCompletedCheckboxChange_"' + soy.$$filterHtmlAttributes(todoData31.completed ? 'checked' : '') + '><label data-ondblclick="handleLabelDoubleClick_">' + soy.$$escapeHtml(todoData31.text) + '</label><button class="destroy" data-onclick="handleDestroyClick_"></button></div><input class="edit" value="' + soy.$$escapeHtmlAttribute(todoData31.text) + '" data-onkeyup="handleEditKeyUp_"></li>';
   }
   output += '</ul>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
@@ -87,7 +87,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.Todo.footer = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<footer id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-footer" class="footer' + soy.$$escapeHtmlAttribute(opt_data.todos.length == 0 ? ' hidden' : '') + '"><span class="todo-count"><strong>' + soy.$$escapeHtml(opt_data.incompleteCount) + '</strong> item' + soy.$$escapeHtml(opt_data.incompleteCount == 1 ? '' : 's') + ' left</span><ul class="filters"><li><a href="#/" class="selected">All</a></li><li><a href="#/active">Active</a></li><li><a href="#/completed">Completed</a></li></ul><button class="clear-completed' + soy.$$escapeHtmlAttribute(opt_data.incompleteCount == opt_data.todos.length ? ' hidden' : '') + '" data-onclick="handleClearCompletedClick_">Clear completed</button></footer>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<footer id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-footer" class="footer' + soy.$$escapeHtmlAttribute(opt_data.todos.length == 0 ? ' hidden' : '') + '"><span class="todo-count"><strong>' + soy.$$escapeHtml(opt_data.incompleteCount) + '</strong> item' + soy.$$escapeHtml(opt_data.incompleteCount == 1 ? '' : 's') + ' left</span><ul class="filters"><li><a href="#/" class="' + soy.$$escapeHtmlAttribute(opt_data.selectedFilter == 'all' || ! opt_data.selectedFilter ? 'selected' : '') + '" data-filter="all" data-onclick="handleFilterClick_">All</a></li><li><a href="#/active" class="' + soy.$$escapeHtmlAttribute(opt_data.selectedFilter == 'active' ? 'selected' : '') + '" data-filter="active" data-onclick="handleFilterClick_">Active</a></li><li><a href="#/completed" class="' + soy.$$escapeHtmlAttribute(opt_data.selectedFilter == 'completed' ? 'selected' : '') + '" data-filter="completed" data-onclick="handleFilterClick_">Completed</a></li></ul><button class="clear-completed' + soy.$$escapeHtmlAttribute(opt_data.incompleteCount == opt_data.todos.length ? ' hidden' : '') + '" data-onclick="handleClearCompletedClick_">Clear completed</button></footer>');
 };
 if (goog.DEBUG) {
   Templates.Todo.footer.soyTemplateName = 'Templates.Todo.footer';
@@ -95,8 +95,8 @@ if (goog.DEBUG) {
 
 Templates.Todo.content.params = ["id"];
 Templates.Todo.header.params = ["id"];
-Templates.Todo.main.params = ["allCompletedChecked","id","todos"];
-Templates.Todo.list.params = ["surfaceElementId","todos"];
-Templates.Todo.footer.params = ["id","incompleteCount","todos"];
+Templates.Todo.main.params = ["allCompletedChecked","id","todos","visibleItems"];
+Templates.Todo.list.params = ["surfaceElementId","todos","visibleItems"];
+Templates.Todo.footer.params = ["id","incompleteCount","selectedFilter","todos"];
 export default Templates.Todo;
 /* jshint ignore:end */

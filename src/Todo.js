@@ -20,6 +20,7 @@ class Todo extends SoyComponent {
 			this.incompleteCount = this.todos.reduce((count, todo) => {
 				return count + (todo.completed ? 0 : 1);
 			}, 0);
+			this.filter_();
 		});
 		dom.on(document, 'blur', this.handleBlur_.bind(this), true);
 	}
@@ -34,6 +35,15 @@ class Todo extends SoyComponent {
 			TodoActions.removeTodo(index);
 		}
 		this.editing_ = false;
+	}
+
+	filter_() {
+		var visible = {};
+		this.todos.forEach((todo, index) => {
+			visible[index] = !(this.selectedFilter === 'active' && todo.completed) &&
+				!(this.selectedFilter === 'completed' && !todo.completed);
+		});
+		this.visibleItems = visible;
 	}
 
 	handleBlur_(event) {
@@ -68,6 +78,11 @@ class Todo extends SoyComponent {
 			dom.removeClasses(listElement, 'editing');
 			this.editing_ = false;
 		}
+	}
+
+	handleFilterClick_(event) {
+		this.selectedFilter = event.delegateTarget.getAttribute('data-filter');
+		this.filter_();
 	}
 
 	handleInputKeyUp_(event) {
