@@ -49,18 +49,33 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.Todo.main = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<section id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-main" class="main' + soy.$$escapeHtmlAttribute(opt_data.todos.length == 0 ? ' hidden' : '') + '"><input class="toggle-all" type="checkbox"><label for="toggle-all">Mark all as complete</label><ul class="todo-list">';
-  var todoList20 = opt_data.todos;
-  var todoListLen20 = todoList20.length;
-  for (var todoIndex20 = 0; todoIndex20 < todoListLen20; todoIndex20++) {
-    var todoData20 = todoList20[todoIndex20];
-    output += '<li><div class="view"><input class="toggle" type="checkbox"><label>' + soy.$$escapeHtml(todoData20.text) + '</label><button class="destroy"></button></div><input class="edit"></li>';
-  }
-  output += '</ul></section>';
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<section id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-main" class="main' + soy.$$escapeHtmlAttribute(opt_data.todos.length == 0 ? ' hidden' : '') + '"><input class="toggle-all" type="checkbox" data-onchange="handleToggleAllChange_"' + soy.$$filterHtmlAttributes(opt_data.allCompleteChecked ? 'checked' : '') + '><label for="toggle-all">Mark all as complete</label>' + Templates.Todo.list({surfaceElementId: opt_data.id + '-list', todos: opt_data.todos}, null, opt_ijData) + '</section>');
 };
 if (goog.DEBUG) {
   Templates.Todo.main.soyTemplateName = 'Templates.Todo.main';
+}
+
+
+/**
+ * @param {Object.<string, *>=} opt_data
+ * @param {(null|undefined)=} opt_ignored
+ * @param {Object.<string, *>=} opt_ijData
+ * @return {!soydata.SanitizedHtml}
+ * @suppress {checkTypes}
+ */
+Templates.Todo.list = function(opt_data, opt_ignored, opt_ijData) {
+  var output = '<ul id="' + soy.$$escapeHtmlAttribute(opt_data.surfaceElementId) + '" class="todo-list">';
+  var todoList30 = opt_data.todos;
+  var todoListLen30 = todoList30.length;
+  for (var todoIndex30 = 0; todoIndex30 < todoListLen30; todoIndex30++) {
+    var todoData30 = todoList30[todoIndex30];
+    output += '<li class="' + soy.$$escapeHtmlAttribute(todoData30.completed ? 'completed' : '') + '"><div class="view"><input class="toggle" type="checkbox" ' + soy.$$filterHtmlAttributes(todoData30.completed ? 'checked' : '') + '><label>' + soy.$$escapeHtml(todoData30.text) + '</label><button class="destroy"></button></div><input class="edit"></li>';
+  }
+  output += '</ul>';
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
+};
+if (goog.DEBUG) {
+  Templates.Todo.list.soyTemplateName = 'Templates.Todo.list';
 }
 
 
@@ -80,7 +95,8 @@ if (goog.DEBUG) {
 
 Templates.Todo.content.params = ["id"];
 Templates.Todo.header.params = ["id"];
-Templates.Todo.main.params = ["id","todos"];
+Templates.Todo.main.params = ["allCompleteChecked","id","todos"];
+Templates.Todo.list.params = ["surfaceElementId","todos"];
 Templates.Todo.footer.params = ["id","todos"];
 export default Templates.Todo;
 /* jshint ignore:end */

@@ -1,5 +1,6 @@
 'use strict';
 
+import dom from 'bower:metal/src/dom/dom';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
 import SoyComponent from 'bower:metal/src/soy/SoyComponent';
 import TodoActions from './TodoActions';
@@ -21,6 +22,16 @@ class Todo extends SoyComponent {
 	handleInputKeyUp_(event) {
 		if (event.keyCode === 13) {
 			TodoActions.addTodo(event.delegateTarget.value.trim());
+			event.delegateTarget.value = '';
+		}
+	}
+
+	handleToggleAllChange_(event) {
+		this.allCompleteChecked = event.delegateTarget.checked;
+		if (event.delegateTarget.checked) {
+			TodoActions.markAllCompleted();
+		} else {
+			TodoActions.markAllIncompleted();
 		}
 	}
 }

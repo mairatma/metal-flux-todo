@@ -34,26 +34,42 @@
 {/template}
 
 /**
+ * @param allCompleteChecked
  * @param id
  * @param todos
  */
 {template .main}
 	<section id="{$id}-main" class="main{length($todos) == 0 ? ' hidden' : ''}">
-		<input class="toggle-all" type="checkbox">
+		<input
+			class="toggle-all"
+			type="checkbox"
+			data-onchange="handleToggleAllChange_"
+			{$allCompleteChecked ? 'checked' : ''}>
 		<label for="toggle-all">Mark all as complete</label>
-		<ul class="todo-list">
-			{foreach $todo in $todos}
-				<li>
-					<div class="view">
-						<input class="toggle" type="checkbox">
-						<label>{$todo.text}</label>
-						<button class="destroy"></button>
-					</div>
-					<input class="edit">
-				</li>
-			{/foreach}
-		</ul>
+		{call .list}
+			{param surfaceElementId: $id + '-list' /}
+			{param todos: $todos /}
+		{/call}
 	</section>
+{/template}
+
+/**
+ * @param surfaceElementId
+ * @param todos
+ */
+{template .list}
+	<ul id="{$surfaceElementId}" class="todo-list">
+		{foreach $todo in $todos}
+			<li class="{$todo.completed ? 'completed' : ''}">
+				<div class="view">
+					<input class="toggle" type="checkbox" {$todo.completed ? 'checked': ''}>
+					<label>{$todo.text}</label>
+					<button class="destroy"></button>
+				</div>
+				<input class="edit">
+			</li>
+		{/foreach}
+	</ul>
 {/template}
 
 /**
