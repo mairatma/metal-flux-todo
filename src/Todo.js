@@ -10,18 +10,11 @@ import './Todo.soy';
 class Todo extends SoyComponent {
 	constructor(opt_config) {
 		super(opt_config);
-		this.todos = TodoStore.getAll();
+		this.updateState_();
 	}
 
 	attached() {
-		TodoStore.on('change', () => {
-			this.todos = TodoStore.getAll();
-			this.allCompletedChecked = TodoStore.areAllCompleted();
-			this.incompleteCount = this.todos.reduce((count, todo) => {
-				return count + (todo.completed ? 0 : 1);
-			}, 0);
-			this.filter_();
-		});
+		TodoStore.on('change', () => this.updateState_());
 		dom.on(document, 'blur', this.handleBlur_.bind(this), true);
 	}
 
@@ -113,6 +106,15 @@ class Todo extends SoyComponent {
 		} else {
 			TodoActions.markAllIncompleted();
 		}
+	}
+
+	updateState_() {
+		this.todos = TodoStore.getAll();
+		this.allCompletedChecked = TodoStore.areAllCompleted();
+		this.incompleteCount = this.todos.reduce((count, todo) => {
+			return count + (todo.completed ? 0 : 1);
+		}, 0);
+		this.filter_();
 	}
 }
 
