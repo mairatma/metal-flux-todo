@@ -15,7 +15,7 @@ class Todo extends SoyComponent {
 
 	attached() {
 		TodoStore.on('change', () => this.updateState_());
-		dom.on(document, 'blur', this.handleBlur_.bind(this), true);
+		dom.on(this.element, 'blur', this.handleBlur_.bind(this), true);
 	}
 
 	editTodo_(input) {
