@@ -87,7 +87,7 @@ if (goog.DEBUG) {
  * @suppress {checkTypes}
  */
 Templates.Todo.footer = function(opt_data, opt_ignored, opt_ijData) {
-  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<footer id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-footer" class="footer' + soy.$$escapeHtmlAttribute(opt_data.todos.length == 0 ? ' hidden' : '') + '"><span class="todo-count"></span><ul class="filters"><li><a href="#/" class="selected">All</a></li><li><a href="#/active">Active</a></li><li><a href="#/completed">Completed</a></li></ul><button class="clear-completed">Clear completed</button></footer>');
+  return soydata.VERY_UNSAFE.ordainSanitizedHtml('<footer id="' + soy.$$escapeHtmlAttribute(opt_data.id) + '-footer" class="footer' + soy.$$escapeHtmlAttribute(opt_data.todos.length == 0 ? ' hidden' : '') + '"><span class="todo-count"><strong>' + soy.$$escapeHtml(opt_data.incompleteCount) + '</strong> item' + soy.$$escapeHtml(opt_data.incompleteCount == 1 ? '' : 's') + ' left</span><ul class="filters"><li><a href="#/" class="selected">All</a></li><li><a href="#/active">Active</a></li><li><a href="#/completed">Completed</a></li></ul><button class="clear-completed' + soy.$$escapeHtmlAttribute(opt_data.incompleteCount == opt_data.todos.length ? ' hidden' : '') + '">Clear completed</button></footer>');
 };
 if (goog.DEBUG) {
   Templates.Todo.footer.soyTemplateName = 'Templates.Todo.footer';
@@ -97,6 +97,6 @@ Templates.Todo.content.params = ["id"];
 Templates.Todo.header.params = ["id"];
 Templates.Todo.main.params = ["allCompletedChecked","id","todos"];
 Templates.Todo.list.params = ["surfaceElementId","todos"];
-Templates.Todo.footer.params = ["id","todos"];
+Templates.Todo.footer.params = ["id","incompleteCount","todos"];
 export default Templates.Todo;
 /* jshint ignore:end */

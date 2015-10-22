@@ -79,11 +79,14 @@
 
 /**
  * @param id
+ * @param incompleteCount
  * @param todos
  */
 {template .footer}
 	<footer id="{$id}-footer" class="footer{length($todos) == 0 ? ' hidden' : ''}">
-		<span class="todo-count"></span>
+		<span class="todo-count">
+			<strong>{$incompleteCount}</strong> item{$incompleteCount == 1 ? '' : 's'} left
+		</span>
 		<ul class="filters">
 			<li>
 				<a href="#/" class="selected">All</a>
@@ -95,6 +98,6 @@
 				<a href="#/completed">Completed</a>
 			</li>
 		</ul>
-		<button class="clear-completed">Clear completed</button>
+		<button class="clear-completed{$incompleteCount == length($todos) ? ' hidden' : ''}">Clear completed</button>
 	</footer>
 {/template}

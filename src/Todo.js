@@ -17,6 +17,9 @@ class Todo extends SoyComponent {
 		TodoStore.on('change', () => {
 			this.todos = TodoStore.getAll();
 			this.allCompletedChecked = TodoStore.areAllCompleted();
+			this.incompleteCount = this.todos.reduce((count, todo) => {
+				return count + (todo.completed ? 0 : 1);
+			}, 0);
 		});
 		dom.on(document, 'blur', this.handleBlur_.bind(this), true);
 	}
@@ -65,8 +68,11 @@ class Todo extends SoyComponent {
 
 	handleInputKeyUp_(event) {
 		if (event.keyCode === 13) {
-			TodoActions.addTodo(event.delegateTarget.value.trim());
-			event.delegateTarget.value = '';
+			var text = event.delegateTarget.value.trim();
+			if (text) {
+				TodoActions.addTodo(text);
+				event.delegateTarget.value = '';
+			}
 		}
 	}
 
