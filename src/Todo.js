@@ -39,6 +39,11 @@ class Todo extends SoyComponent {
 		}
 	}
 
+	handleDestroyClick_(event) {
+		var index = parseInt(event.delegateTarget.parentNode.parentNode.getAttribute('data-index'), 10);
+		TodoActions.removeTodo(index);
+	}
+
 	handleCompletedCheckboxChange_(event) {
 		var index = parseInt(event.delegateTarget.parentNode.parentNode.getAttribute('data-index'), 10);
 		if (event.delegateTarget.checked) {

@@ -69,7 +69,7 @@
 						{$todo.completed ? 'checked': ''}
 					>
 					<label data-ondblclick="handleLabelDoubleClick_">{$todo.text}</label>
-					<button class="destroy"></button>
+					<button class="destroy" data-onclick="handleDestroyClick_"></button>
 				</div>
 				<input class="edit" value="{$todo.text}" data-onkeyup="handleEditKeyUp_">
 			</li>

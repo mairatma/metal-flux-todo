@@ -69,7 +69,7 @@ Templates.Todo.list = function(opt_data, opt_ignored, opt_ijData) {
   var todoListLen30 = todoList30.length;
   for (var todoIndex30 = 0; todoIndex30 < todoListLen30; todoIndex30++) {
     var todoData30 = todoList30[todoIndex30];
-    output += '<li class="' + soy.$$escapeHtmlAttribute(todoData30.completed ? 'completed' : '') + '" data-index="' + soy.$$escapeHtmlAttribute(todoIndex30) + '"><div class="view"><input class="toggle" type="checkbox" data-onchange="handleCompletedCheckboxChange_"' + soy.$$filterHtmlAttributes(todoData30.completed ? 'checked' : '') + '><label data-ondblclick="handleLabelDoubleClick_">' + soy.$$escapeHtml(todoData30.text) + '</label><button class="destroy"></button></div><input class="edit" value="' + soy.$$escapeHtmlAttribute(todoData30.text) + '" data-onkeyup="handleEditKeyUp_"></li>';
+    output += '<li class="' + soy.$$escapeHtmlAttribute(todoData30.completed ? 'completed' : '') + '" data-index="' + soy.$$escapeHtmlAttribute(todoIndex30) + '"><div class="view"><input class="toggle" type="checkbox" data-onchange="handleCompletedCheckboxChange_"' + soy.$$filterHtmlAttributes(todoData30.completed ? 'checked' : '') + '><label data-ondblclick="handleLabelDoubleClick_">' + soy.$$escapeHtml(todoData30.text) + '</label><button class="destroy" data-onclick="handleDestroyClick_"></button></div><input class="edit" value="' + soy.$$escapeHtmlAttribute(todoData30.text) + '" data-onkeyup="handleEditKeyUp_"></li>';
   }
   output += '</ul>';
   return soydata.VERY_UNSAFE.ordainSanitizedHtml(output);
