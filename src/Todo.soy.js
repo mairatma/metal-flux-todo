@@ -1,6 +1,10 @@
 /* jshint ignore:start */
+import Component from 'bower:metal/src/component/Component';
 import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
-var Templates = ComponentRegistry.Templates;
+import SoyAop from 'bower:metal/src/soy/SoyAop';
+import SoyRenderer from 'bower:metal/src/soy/SoyRenderer';
+import SoyTemplates from 'bower:metal/src/soy/SoyTemplates';
+var Templates = SoyTemplates.get();
 // This file was automatically generated from Todo.soy.
 // Please don't edit this file by hand.
 
@@ -98,5 +102,14 @@ Templates.Todo.header.params = ["id"];
 Templates.Todo.main.params = ["allCompletedChecked","id","todos","visibleItems"];
 Templates.Todo.list.params = ["surfaceElementId","todos","visibleItems"];
 Templates.Todo.footer.params = ["id","incompleteCount","selectedFilter","todos"];
-export default Templates.Todo;
+
+class Todo extends Component {
+  static setImpl(ctor) {
+    ComponentRegistry.register(ctor, 'Todo');
+  }
+}
+Todo.RENDERER = SoyRenderer;
+Todo.setImpl(Todo);
+SoyAop.registerTemplates('Todo');
+export default Todo;
 /* jshint ignore:end */

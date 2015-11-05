@@ -27,7 +27,7 @@ class TodoStore extends FluxStore {
 				break;
 			case TodoActions.EDIT_TODO:
 				if (todos[payload.index].text !== payload.text) {
-					todos[payload.index].text = payload.text
+					todos[payload.index].text = payload.text;
 					this.emit(FluxStore.EVENT_CHANGE);
 				}
 				break;

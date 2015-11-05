@@ -1,13 +1,11 @@
 'use strict';
 
 import dom from 'bower:metal/src/dom/dom';
-import ComponentRegistry from 'bower:metal/src/component/ComponentRegistry';
-import SoyComponent from 'bower:metal/src/soy/SoyComponent';
 import TodoActions from './TodoActions';
+import TodoBase from './Todo.soy';
 import TodoStore from './TodoStore';
-import './Todo.soy';
 
-class Todo extends SoyComponent {
+class Todo extends TodoBase {
 	constructor(opt_config) {
 		super(opt_config);
 		this.updateState_();
@@ -117,7 +115,6 @@ class Todo extends SoyComponent {
 		this.filter_();
 	}
 }
-
-ComponentRegistry.register('Todo', Todo);
+Todo.setImpl(Todo);
 
 export default Todo;
